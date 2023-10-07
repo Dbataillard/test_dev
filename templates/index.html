@@ -30,27 +30,68 @@
         
         <input type="submit" value="Ajouter">
     </form>
+    <script>
+        function updateModeles() {
+            var cordageSelect = document.getElementById('cordage_id');
+            var selectedMarque = cordageSelect.options[cordageSelect.selectedIndex].value;
+            var modeleSelect = document.getElementById('modele_id');
+            var allCordages = {{ cordages|tojson|safe }};  // Convertir la liste Python en tableau JavaScript
+
+            // Vider les options actuelles
+            modeleSelect.innerHTML = '';
+    
+            // Ajouter les modèles pour la marque sélectionnée
+            for (var i = 0; i < allCordages.length; i++) {
+                if (allCordages[i]['fields']['Marque'] === selectedMarque) {
+                    var option = document.createElement('option');
+                    option.value = allCordages[i]['fields']['Modèle'];
+                    option.text = allCordages[i]['fields']['Modèle'];
+                    modeleSelect.appendChild(option);
+                }
+            }
+        };
+        
+        function updateTailles() {
+            var modeleSelect = document.getElementById('modele_id');
+            var selectedModele = modeleSelect.options[modeleSelect.selectedIndex].value;
+            var tailleSelect = document.getElementById('taille_id');
+            var allCordages = {{ cordages|tojson|safe }};
+
+            // Vider les options actuelles
+            tailleSelect.innerHTML = '';
+
+            // Ajouter les tailles pour la marque et le modèle sélectionnés
+            for (var i = 0; i < allCordages.length; i++) {
+                if (allCordages[i]['fields']['Modèle'] === selectedModele) {
+                    var option = document.createElement('option');
+                    option.value = allCordages[i]['fields']['Size'];
+                    option.text = allCordages[i]['fields']['Size'];
+                    tailleSelect.appendChild(option);
+            };
+        }
+    }
+    </script>
     <form action="/choose_cordage" method="post">
         <!-- Choix du cordage -->
-        <label for="cordage_id">Cordage :</label>
-        <select id="cordage_id" name="cordage_id">
+        <label for="cordage_id">Marque :</label>
+        <select id="cordage_id" name="cordage_id" onchange="updateModeles()">
             {% for cordage in cordages %}
-                <option value="{{ cordage['Marque'] }}">{{ cordage['fields']['Marque'] }}</option>
+                <option value="{{ cordage['fields']['Marque'] }}">{{ cordage['fields']['Marque'] }}</option>
             {% endfor %}
         </select>
         
         <!-- Choix du modèle -->
         <label for="modele_id">Modèle :</label>
-        <select id="modele_id" name="modele_id">
+        <select id="modele_id" name="modele_id" onchange="updateTailles();">
             {% for cordage in cordages %}
-                <option value="{{ cordage['Modèle'] }}">{{ cordage['fields']['Modèle'] }}</option>
+                <option value="{{ cordage['fields']['Modèle'] }}">{{ cordage['fields']['Modèle'] }}</option>
             {% endfor %}
         </select>
 
         <label for="taille_id">Taille :</label>
         <select id="taille_id" name="taille_id">
             {% for cordage in cordages %}
-                <option value="{{ cordage['Size'] }}">{{ cordage['fields']['Size'] }}</option>
+                <option value="{{ cordage['fields']['Size'] }}">{{ cordage['fields']['Size'] }}</option>
             {% endfor %}
         </select>
     
