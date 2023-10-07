@@ -4,8 +4,8 @@ from airtable import Airtable
 app = Flask(__name__)
 
 # Configuration Airtable
-API_KEY = 'YOUR_AIRTABLE_API_KEY'
-BASE_ID = 'YOUR_AIRTABLE_BASE_ID'
+API_KEY = 'patdFafREOKHC0KpG.9d1e1a38bdbe06fef04c641e040004da55bcba770bb7849051c87c2a666c01cb'
+BASE_ID = 'appIUsjqTXp0S6dEk'
 CLIENT_TABLE = 'Leads'
 CORDAGE_TABLE = 'Products'
 

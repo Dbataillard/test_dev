@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Tennis Cordage</title>
+</head>
+<body>
+    <h1>Bienvenue!</h1>
+    <form action="/add_client" method="post">
+        <input type="text" name="nom" placeholder="Nom">
+        <input type="email" name="email" placeholder="Email">
+        <input type="submit" value="Ajouter">
+    </form>
+    <form action="/choose_cordage" method="post">
+        <select name="cordage_id">
+            {% for cordage in cordages %}
+                <option value="{{ cordage['id'] }}">{{ cordage['fields']['Nom'] }}</option>
+            {% endfor %}
+        </select>
+        <input type="date" name="date_recuperation">
+        <input type="submit" value="Choisir">
+    </form>
+</body>
+</html>
