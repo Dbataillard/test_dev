@@ -72,6 +72,9 @@
     }
     </script>
     <form action="/choose_cordage" method="post">
+        <label for="email">Votre Email :</label>
+        <input type="email" id="email" name="email" placeholder="Email" required>
+
         <!-- Choix du cordage -->
         <label for="cordage_id">Marque :</label>
         <select id="cordage_id" name="cordage_id" onchange="updateModeles()">
