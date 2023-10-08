@@ -16,8 +16,14 @@ airtable_reservation = Airtable(BASE_ID,RESERVATION_TABLE, API_KEY)
 
 @app.route('/')
 def index():
-    cordages = airtable_cordages.get_all()
-    return render_template('index.html', cordages=cordages)
+    cordages_raw = airtable_cordages.get_all()
+    
+    # Extraire les marques uniques
+    unique_marques = set(cordage['fields'].get('Marque', '') for cordage in cordages_raw)
+    unique_modeles = set(cordage['fields'].get('Modèle', '') for cordage in cordages_raw)
+    unique_tailles = set(cordage['fields'].get('Size', '') for cordage in cordages_raw)
+    
+    return render_template('index.html', marques=sorted(unique_marques), modeles=sorted(unique_modeles), tailles=sorted(unique_tailles), cordages = cordages_raw)
 
 @app.route('/add_client', methods=['POST'])
 def add_client():

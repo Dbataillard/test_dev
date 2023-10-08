@@ -30,26 +30,37 @@
         
         <input type="submit" value="Ajouter">
     </form>
-    <script>
-        function updateModeles() {
-            var cordageSelect = document.getElementById('cordage_id');
-            var selectedMarque = cordageSelect.options[cordageSelect.selectedIndex].value;
-            var modeleSelect = document.getElementById('modele_id');
-            var allCordages = {{ cordages|tojson|safe }};  // Convertir la liste Python en tableau JavaScript
+        <script>
+            function updateModeles() {
+                var cordageSelect = document.getElementById('cordage_id');
+                var selectedMarque = cordageSelect.options[cordageSelect.selectedIndex].value;
+                var modeleSelect = document.getElementById('modele_id');
+                var allCordages = {{ cordages|tojson|safe }};  // Convertir la liste Python en tableau JavaScript
 
-            // Vider les options actuelles
-            modeleSelect.innerHTML = '';
-    
-            // Ajouter les modèles pour la marque sélectionnée
-            for (var i = 0; i < allCordages.length; i++) {
-                if (allCordages[i]['fields']['Marque'] === selectedMarque) {
-                    var option = document.createElement('option');
-                    option.value = allCordages[i]['fields']['Modèle'];
-                    option.text = allCordages[i]['fields']['Modèle'];
-                    modeleSelect.appendChild(option);
+                // Vider les options actuelles
+                modeleSelect.innerHTML = '';
+
+                // Utilisé pour éviter les doublons
+                var addedModeles = new Set();
+
+                // Ajouter les modèles pour la marque sélectionnée
+                for (var i = 0; i < allCordages.length; i++) {
+                    if (allCordages[i]['fields']['Marque'] === selectedMarque) {
+                        var currentModele = allCordages[i]['fields']['Modèle'];
+                        
+                        // Vérifier si le modèle n'a pas déjà été ajouté
+                        if (!addedModeles.has(currentModele)) {
+                            var option = document.createElement('option');
+                            option.value = currentModele;
+                            option.text = currentModele;
+                            modeleSelect.appendChild(option);
+                            
+                            // Ajouter le modèle au set pour éviter les doublons
+                            addedModeles.add(currentModele);
+                        }
+                    }
                 }
-            }
-        };
+            };
         
         function updateTailles() {
             var modeleSelect = document.getElementById('modele_id');
@@ -78,23 +89,23 @@
         <!-- Choix du cordage -->
         <label for="cordage_id">Marque :</label>
         <select id="cordage_id" name="cordage_id" onchange="updateModeles()">
-            {% for cordage in cordages %}
-                <option value="{{ cordage['fields']['Marque'] }}">{{ cordage['fields']['Marque'] }}</option>
+            {% for marque in marques %}
+                <option value="{{ marque }}">{{ marque }}</option>
             {% endfor %}
         </select>
         
         <!-- Choix du modèle -->
         <label for="modele_id">Modèle :</label>
         <select id="modele_id" name="modele_id" onchange="updateTailles();">
-            {% for cordage in cordages %}
-                <option value="{{ cordage['fields']['Modèle'] }}">{{ cordage['fields']['Modèle'] }}</option>
+            {% for modele in modeles %}
+                <option value="{{ modele }}">{{modele }}</option>
             {% endfor %}
         </select>
 
         <label for="taille_id">Taille :</label>
         <select id="taille_id" name="taille_id">
-            {% for cordage in cordages %}
-                <option value="{{ cordage['fields']['Size'] }}">{{ cordage['fields']['Size'] }}</option>
+            {% for taille in tailles %}
+                <option value="{{ taille }}">{{ taille }}</option>
             {% endfor %}
         </select>
     
