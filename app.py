@@ -1,7 +1,8 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, session
 from airtable import Airtable
 
 app = Flask(__name__)
+app.secret_key = '1254'
 
 # Configuration Airtable
 API_KEY = 'pat28jA9jpapynge9.d82b2274baf802746434350cb6b73d4fd2d29caaeeccd2ab68be5cb3f43405b6'
@@ -22,6 +23,7 @@ def index():
     unique_marques = set(cordage['fields'].get('Marque', '') for cordage in cordages_raw)
     unique_modeles = set(cordage['fields'].get('Modèle', '') for cordage in cordages_raw)
     unique_tailles = set(cordage['fields'].get('Size', '') for cordage in cordages_raw)
+    
     
     return render_template('index.html', marques=sorted(unique_marques), modeles=sorted(unique_modeles), tailles=sorted(unique_tailles), cordages = cordages_raw)
 
@@ -48,6 +50,7 @@ def add_client():
         'Genre': request.form['genre'],
         'Date de naissance': request.form['datedenaissance']
     }
+    
     airtable_clients.insert(data)
     return redirect(url_for('index'))
 

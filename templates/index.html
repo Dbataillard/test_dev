@@ -1,29 +1,33 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <link rel="stylesheet" href="/styles.css">
+    <link rel="stylesheet" href="/static/styles.css">
     <title>Tennis Cordage</title>
 </head>
 <body>
-    <h1>Bienvenue!</h1>
+    <h1>Réparation de cordage </h1>
+    
     <form action="/add_client" method="post">
+
+        <h2>Inscrivez-vous ici</h2>
+
         <label for="nom">Nom :</label>
-        <input type="text" id="nom" name="nom" placeholder="Nom" required>
+        <input type="text" id="nom" name="nom" placeholder="Ex: Wayne" required>
         
         <label for="prenom">Prénom :</label>
-        <input type="text" id="prenom" name="prenom" placeholder="Prénom" required>
+        <input type="text" id="prenom" name="prenom" placeholder="Ex: Bruce" required>
         
         <label for="email">Email :</label>
-        <input type="email" id="email" name="email" placeholder="Email" required>
+        <input type="email" id="email" name="email" placeholder="Ex: brucewayne@gmail.com" required>
         
         <label for="ville">Ville :</label>
-        <input type="text" id="ville" name="ville" placeholder="Ville" required>
+        <input type="text" id="ville" name="ville" placeholder="Ex: Paris" required>
         
         <label for="codepostal">Code Postal :</label>
-        <input type="text" id="codepostal" name="codepostal" placeholder="Code Postal" required>
+        <input type="text" id="codepostal" name="codepostal" placeholder="Ex: 75019" required>
         
         <label for="genre">Genre :</label>
-        <input type="text" name="genre" placeholder="Genre">     
+        <input type="text" id="genre" name="genre" placeholder="Homme,Femme,Autres" required>     
         
         <label for="datedenaissance">Date de naissance :</label>
         <input type="date" id="datedenaissance" name="datedenaissance" required>
@@ -82,12 +86,16 @@
         }
     }
     </script>
+
     <form action="/choose_cordage" method="post">
-        <label for="email">Votre Email :</label>
-        <input type="email" id="email" name="email" placeholder="Email" required>
+
+        <h2>Déja inscrit </h2>
+
+        <label for="email">Veuillez entrer votre mail.</label>
+        <input type="email" id="email" name="email" placeholder="Ex: brucewayne@gmail.com" required>
 
         <!-- Choix du cordage -->
-        <label for="cordage_id">Marque :</label>
+        <label for="cordage_id">Quelle est la marque de votre raquette ?</label>
         <select id="cordage_id" name="cordage_id" onchange="updateModeles()">
             {% for marque in marques %}
                 <option value="{{ marque }}">{{ marque }}</option>
@@ -95,14 +103,14 @@
         </select>
         
         <!-- Choix du modèle -->
-        <label for="modele_id">Modèle :</label>
+        <label for="modele_id">Quel est le modèle de votre raquette ?</label>
         <select id="modele_id" name="modele_id" onchange="updateTailles();">
             {% for modele in modeles %}
                 <option value="{{ modele }}">{{modele }}</option>
             {% endfor %}
         </select>
 
-        <label for="taille_id">Taille :</label>
+        <label for="taille_id">Quelle est sa taille ?</label>
         <select id="taille_id" name="taille_id">
             {% for taille in tailles %}
                 <option value="{{ taille }}">{{ taille }}</option>
@@ -110,7 +118,7 @@
         </select>
     
         <!-- Date de récupération -->
-        <label for="date_recuperation">Date de récupération :</label>
+        <label for="date_recuperation">Quand souhaitez-vous la récuperer ?</label>
         <input type="date" id="date_recuperation" name="date_recuperation">
         
         <input type="submit" value="Choisir">
