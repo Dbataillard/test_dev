@@ -42,7 +42,7 @@
             var modeleSelect = document.getElementById('modele_id');
             var selectedModele = modeleSelect.options[modeleSelect.selectedIndex].value;
             var tailleSelect = document.getElementById('taille_id');
-            var allCordages = {{ cordages|tojson|safe }};
+            var allCordages = {{ cordages|tojson|safe }}; // Convertir la liste Python en tableau JavaScript
 
             // Vider les options actuelles
             tailleSelect.innerHTML = '';
@@ -80,6 +80,7 @@
             {% endfor %}
         </select>
 
+        <!-- Choix de la taille -->
         <label for="taille_id">Quelle est sa taille ?</label>
         <select id="taille_id" name="taille_id">
             {% for taille in tailles %}
